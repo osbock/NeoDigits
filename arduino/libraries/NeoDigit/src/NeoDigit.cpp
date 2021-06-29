@@ -1,0 +1,54 @@
+#include "Arduino.h"
+#include "NeoDigit.h"
+
+
+
+// digit setup
+#define LEDS_PER_SEGMENT 3
+/*      Segment indices
+ *            3
+ *           ---
+ *        4 |   |  2
+ *           -6-   
+ *        5 |   |  1
+ *           ---
+ *            0
+ */
+
+static int NeoDigit::allSegments[10][7] = {
+                {0,1,2,3,4,5,-1}, //0
+                {1,2,-1,-1,-1,-1,-1},//1
+                {0,5,6,2,3,-1,-1},   //2
+                {3,2,6,1,0,-1,-1},   //3
+                {4,6,2,1,-1,-1,-1},  //4
+                {3,4,6,1,0,-1,-1},   //5
+                {3,4,5,6,0,1,-1},   //6
+                {3,2,1,-1,-1,-1,-1}, //7
+                {0,1,2,3,4,5,6},     //8
+                {6,4,3,2,1,-1,-1}    //9
+                
+                 };
+
+// this assumes strip initialization is done in the calling code.
+
+NeoDigit::NeoDigit(CRGB *leds, int leds_per_segment){
+  _leds_per_segment = leds_per_segment;
+  _leds = leds;
+}
+
+void NeoDigit::display(int value, int color){
+  
+  FastLED.clear();
+  // for segments in digit
+  for (int i=0 ; (i < 7)  ; i++){
+    if (allSegments[value][i] < 0)
+      break;
+    int segment = allSegments[value][i];
+    for (int x=0; x< _leds_per_segment; x++){
+      _leds[x+(segment * _leds_per_segment)] = CHSV(color,255,192);
+    }
+    //Serial.println(segment);
+  }
+
+
+}

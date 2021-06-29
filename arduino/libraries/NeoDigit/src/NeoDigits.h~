@@ -1,0 +1,9 @@
+class NeoDigit
+{
+ public:
+  NeoDigit(int pin,int leds_per_segment);
+  void display(int value);
+ private:
+  int _pin;
+  int _leds_per_segment;
+}
