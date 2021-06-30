@@ -26,7 +26,9 @@ uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 uint8_t counter = 0;
 void loop() {
 
-  Digit1.display(counter,gHue);
+  fill_rainbow(leds1,NUM_LEDS,gHue);
+  Digit1.display(counter);
+  //Digit1.display(counter,gHue);
   FastLED.show();
   // do some periodic updates
   EVERY_N_MILLISECONDS( 10 ) { gHue++; } // slowly cycle the "base color" through the rainbow
